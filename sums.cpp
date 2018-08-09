@@ -2,12 +2,20 @@
 	Given a number N, print all way to obtain N as sum of addends in {1,3,4}
 */
 
+/*
+RECURRENCE RELATION: (factors 1,3,4)
+	sums(n) => 	1 + sums(n-1)
+				3 + sums(n-3)
+				4 + sums(n-4)
+*/
+
 #include<iostream>
 #include<vector>
+#include<algorithm>
 
 using namespace std;
 
-void print_addends(vector<int> &addends) {
+void print_addends(vector<int> &addends) { // O(addends.size())
 	if(addends.size() == 0) {
 		cout << "no addends" << endl;
 	} else {
@@ -17,39 +25,39 @@ void print_addends(vector<int> &addends) {
 	}
 }
 
-/*
-RECURRENCE RELATION: (factors 1,3,4)
-	sums(n) => 	1 + sums(n-1)
-				3 + sums(n-3)
-				4 + sums(n-4)
-*/
 
-
-void sums(vector<int> &addends, int n) {
-	if(n == 0) {
+void sums(vector<int> &addends, vector<int> &factors, int n) {	
+	
+	if(n == 0){
 		print_addends(addends);
-	} else if(n < 3) {
-		addends.push_back(1); sums(addends, n-1); addends.pop_back();
-	} else if(n < 4) {
-		addends.push_back(1); sums(addends, n-1); addends.pop_back();
-		addends.push_back(3); sums(addends, n-3); addends.pop_back();
 	} else {
-		addends.push_back(1); sums(addends, n-1); addends.pop_back();
-		addends.push_back(3); sums(addends, n-3); addends.pop_back();
-		addends.push_back(4); sums(addends, n-4); addends.pop_back();
-	}
+		for(int i = 0; i < factors.size(); ++i) { // O(factors.size())
+			if(n >= factors[i]) {
+					addends.push_back(factors[i]); 
+					sums(addends, factors, n-factors[i]); 
+					addends.pop_back();
+			}
+		}
+	}	
 }
 
-void sums(int n) {
+void sums(int n, vector<int> &factors) {
+	if(factors.size() == 0)
+		return;
+	
+	sort(factors.rbegin(), factors.rend()); // nlog(n)
 	vector<int> addends;
-	return sums(addends, n);
+	return sums(addends, factors, n);
 }
 
 int main() {
+
 	const int N = 10;
+	vector<int> factors({1,3,4});
+	
 	for(int i = 0; i < N; ++i){
 		cout << "n=" << i << endl;
-		sums(i);
+		sums(i, factors);
 		cout << endl;
 	} 
 	return 0;
