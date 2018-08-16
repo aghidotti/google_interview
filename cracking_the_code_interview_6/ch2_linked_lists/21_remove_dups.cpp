@@ -15,7 +15,6 @@ remove_dups(std::forward_list<int> & list) {
 	}
 }
 
-
 int main() {
 
 	auto flist = std::forward_list<int>();
