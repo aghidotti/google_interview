@@ -29,7 +29,7 @@ int main() {
 	std::vector<char> items = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 
 	std::shared_ptr<slist_node<char>> list = nullptr;
-	for(auto it = items.crbegin(); it != items.crend(); ++it)
+	for(auto it = items.rbegin(); it != items.rend(); ++it)
 		push_front(list, *it);
 
 	print_list(list);
