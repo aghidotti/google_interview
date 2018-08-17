@@ -1,35 +1,47 @@
 #include <iostream>
-#include <forward_list>
+#include <vector>
+#include "20_linked_lists.hpp"
 
 template <typename T>
-T kth_to_last(const std::forward_list<T> & list, unsigned int k) {
+T kth_to_last(const std::shared_ptr<slist_node<T>> & list, unsigned int k) {
 
-	auto cursor_back = list.begin();
-	auto cursor_forward = list.begin();
+	auto cursor_back = list;
+	auto cursor_forward = list;
 	int cursor_cnt = 0;
 
 	while(k > cursor_cnt)  {
-		cursor_forward++;
+		cursor_forward = cursor_forward->next;
 		cursor_cnt++;
-		if(cursor_forward == list.end())
+		if(cursor_forward == nullptr)
 			throw std::out_of_range("k >= list length");
 	}
 
-	while(std::next(cursor_forward) != list.end()) {
-		cursor_forward++;
-		cursor_back++;
+	while(cursor_forward->next != nullptr) {
+		cursor_forward = cursor_forward->next;
+		cursor_back = cursor_back->next;
 	}
 
-	return *cursor_back;
+	return cursor_back->val;
 
 }
 
 int main() {
-	std::forward_list<char> list = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+	std::vector<char> items = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+
+	std::shared_ptr<slist_node<char>> list = nullptr;
+	for(auto it = items.crbegin(); it != items.crend(); ++it)
+		push_front(list, *it);
+
+	print_list(list);
+
+	std::cout << "---------------------" << std::endl;
 
 	int list_size = 0;
-	for(auto it = list.begin(); it != list.end(); ++it)
+	auto node = list;
+	while(node != nullptr) {
 		list_size++;
+		node = node->next;
+	}
 
 	auto first = kth_to_last(list, list_size - 1);	std::cout << ((first == 'a') ? "OK" : "KO") << std::endl;
 	auto second = kth_to_last(list, list_size - 2);	std::cout << ((second == 'b') ? "OK" : "KO") << std::endl;
