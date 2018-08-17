@@ -7,7 +7,7 @@ T kth_to_last(const std::shared_ptr<slist_node<T>> & list, unsigned int k) {
 
 	auto cursor_back = list;
 	auto cursor_forward = list;
-	int cursor_cnt = 0;
+	unsigned int cursor_cnt = 0;
 
 	while(k > cursor_cnt)  {
 		cursor_forward = cursor_forward->next;
@@ -51,13 +51,13 @@ int main() {
 
 	// error cases
 	try{
-		auto error1 = kth_to_last(list, -1);
+		kth_to_last(list, -1);
 	} catch(const std::exception & e1) {
 		std::cout << e1.what() << std::endl;
 	}
 
 	try{
-		auto error2 = kth_to_last(list, list_size);
+		kth_to_last(list, list_size);
 	} catch(const std::exception & e2) {
 		std::cout << e2.what() << std::endl;
 	}

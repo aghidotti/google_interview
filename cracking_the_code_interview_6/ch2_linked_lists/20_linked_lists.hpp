@@ -11,7 +11,7 @@ class slist_node {
 public:
         T val;
         std::shared_ptr<slist_node<T>> next = nullptr;
-        slist_node(T &v) : val(v) {}
+        slist_node(const T &v) : val(v) {}
 };
 
 
@@ -20,13 +20,13 @@ class dlist_node : public slist_node<T> {
         dlist_node() = default;
 public:
         std::shared_ptr<dlist_node<T>> prev = nullptr;
-        dlist_node(T &v) : slist_node<T>(v) {}
+        dlist_node(const T &v) : slist_node<T>(v) {}
 };
 
 
 template <typename T>
 void
-push_front(std::shared_ptr<slist_node<T>> & head, T & val) {
+push_front(std::shared_ptr<slist_node<T>> & head, const T & val) {
         auto new_node = std::make_shared<slist_node<T>>(val);
         if(head == nullptr)
                 head = new_node;
@@ -38,7 +38,7 @@ push_front(std::shared_ptr<slist_node<T>> & head, T & val) {
 
 template <typename T>
 void
-push_front(std::shared_ptr<dlist_node<T>> & head, T & val) {
+push_front(const std::shared_ptr<dlist_node<T>> & head, const T & val) {
         auto new_node = std::make_shared<dlist_node<T>>(val);
         if(head == nullptr)
                 head = new_node;
@@ -51,7 +51,7 @@ push_front(std::shared_ptr<dlist_node<T>> & head, T & val) {
 
 template <typename T>
 void
-print_list(std::shared_ptr<slist_node<T>> & list) {
+print_list(const std::shared_ptr<slist_node<T>> & list) {
         auto node = list;
         while(node != nullptr) {
                 std::cout << node->val << std::endl;
