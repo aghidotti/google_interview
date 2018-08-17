@@ -1,43 +1,44 @@
 #include <iostream>
-#include <forward_list>
-#include <algorithm>
+#include "20_linked_lists.hpp"
 
+template <typename T>
 void
-remove_dups(std::forward_list<int> & list) {
-
-	for(auto head = list.begin(); head != list.end(); ++head) {
-		auto val = *head;
-		for(auto runner = head; runner != list.end(); ++runner) {
-			auto it = std::next(runner);
-			if(it != list.end() && *it == val)
-				list.erase_after(runner);
+remove_dups(std::shared_ptr<slist_node<T>> & list) {
+	auto current = list;
+	while(current != nullptr) {
+		auto runner = current;
+		while(runner->next != nullptr) {
+			if(runner->next->val == current->val) {
+				runner->next = runner->next->next;
+			} else {
+				runner = runner->next;
+			}
 		}
+		current = current->next;
 	}
 }
 
 int main() {
 
-	auto flist = std::forward_list<int>();
+	std::shared_ptr<slist_node<int>> list = nullptr;
 
-	flist.push_front(1);
-	flist.push_front(2);
-	flist.push_front(1);
-	flist.push_front(3);
-	flist.push_front(2);
-	flist.push_front(4);
-	flist.push_front(5);
-	flist.push_front(2);
-	flist.push_front(1);
+	push_front(list, 2);
+	push_front(list, 1);
+	push_front(list, 1);
+	push_front(list, 2);
+	push_front(list, 4);
+	push_front(list, 5);
+	push_front(list, 1);
+	push_front(list, 2);
+	push_front(list, 3);
 
-	for_each(flist.cbegin(), flist.cend(),
-			[](const int & val) { std::cout << val << std::endl; });
+	print_list(list);
 
 	std::cout << "-------------------------------------------" << std::endl;
 
-	remove_dups(flist);
+	remove_dups(list);
 
-        for_each(flist.cbegin(), flist.cend(),
-                        [](const int & val) { std::cout << val << std::endl; });
+	print_list(list);
 
 	std::cout << "-------------------------------------------" << std::endl;
 
