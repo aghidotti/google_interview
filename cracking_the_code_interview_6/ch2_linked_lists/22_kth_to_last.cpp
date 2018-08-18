@@ -3,7 +3,7 @@
 #include "20_linked_lists.hpp"
 
 template <typename T>
-T kth_to_last(const std::shared_ptr<slist_node<T>> & list, unsigned int k) {
+T kth_to_last(const slist_node<T> *list, unsigned int k) {
 
 	auto cursor_back = list;
 	auto cursor_forward = list;
@@ -28,7 +28,7 @@ T kth_to_last(const std::shared_ptr<slist_node<T>> & list, unsigned int k) {
 int main() {
 	std::vector<char> items = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
 
-	std::shared_ptr<slist_node<char>> list = nullptr;
+	slist_node<char> *list = nullptr;
 	for(auto it = items.rbegin(); it != items.rend(); ++it)
 		push_front(list, *it);
 
@@ -61,4 +61,6 @@ int main() {
 	} catch(const std::exception & e2) {
 		std::cout << e2.what() << std::endl;
 	}
+
+	delete list;
 }

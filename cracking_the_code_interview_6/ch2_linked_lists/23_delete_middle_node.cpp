@@ -4,12 +4,13 @@
 
 template <typename T>
 void
-delete_middle_node(std::shared_ptr<slist_node<T>> & node_to_del) {
+delete_middle_node(slist_node<T> *node_to_del) {
 	if(node_to_del != nullptr) {
 		auto next_node = node_to_del->next;
 		node_to_del->val = node_to_del->next->val;
 		node_to_del->next = node_to_del->next->next;
 		next_node->next = nullptr;
+		delete next_node;
 	} else {
 		throw std::runtime_error("node_to_del == nullptr");
 	}
@@ -19,7 +20,7 @@ int
 main() {
 	std::vector<char> init = {'q','w','e','r','t','y'};
 
-	std::shared_ptr<slist_node<char>> list = nullptr;
+	slist_node<char> *list = nullptr;
 	for(auto it = init.rbegin(); it != init.rend(); ++it)
 		push_front(list, *it);
 
@@ -37,4 +38,5 @@ main() {
 
 	print_list(list);
 
+	delete list;
 }
