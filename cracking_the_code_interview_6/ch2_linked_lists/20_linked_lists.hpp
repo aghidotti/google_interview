@@ -49,14 +49,11 @@ template <typename T>
 void
 push_front(dlist_node<T> *&head, const T & val) {
         auto new_node = new dlist_node<T>(val);
-	std::cout << "new_node=" << new_node->val << std::endl;
         if(head != nullptr) {
                 new_node->next = head;
 		head->prev = new_node;
         }
 	head = new_node;
-	std::cout << "head=" << head->val << std::endl;
-
 }
 
 template <typename T>
