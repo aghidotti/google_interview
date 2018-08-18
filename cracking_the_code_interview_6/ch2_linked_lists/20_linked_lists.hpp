@@ -38,7 +38,7 @@ push_front(std::shared_ptr<slist_node<T>> & head, const T & val) {
 
 template <typename T>
 void
-push_front(const std::shared_ptr<dlist_node<T>> & head, const T & val) {
+push_front(std::shared_ptr<dlist_node<T>> & head, const T & val) {
         auto new_node = std::make_shared<dlist_node<T>>(val);
         if(head == nullptr)
                 head = new_node;
@@ -52,6 +52,16 @@ push_front(const std::shared_ptr<dlist_node<T>> & head, const T & val) {
 template <typename T>
 void
 print_list(const std::shared_ptr<slist_node<T>> & list) {
+	auto node = list;
+        while(node != nullptr) {
+                std::cout << node->val << std::endl;
+                node = node->next;
+        }
+}
+
+template <typename T>
+void
+print_list(const std::shared_ptr<dlist_node<T>> & list) {
         auto node = list;
         while(node != nullptr) {
                 std::cout << node->val << std::endl;
