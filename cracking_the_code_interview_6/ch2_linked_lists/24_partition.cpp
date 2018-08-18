@@ -4,9 +4,26 @@
 
 template <typename T>
 void
-partition(dlist_node<T> *&list, const T &x) {
+partition(dlist_node<T>* &list, const T &x) {
+	auto current = list;
+	while(current != nullptr) {
+		auto runner = current;
+		while(runner->next != nullptr) {
+			if(runner->next->val < x) {
+				auto tmp = runner->next;
+				runner->next = tmp->next;
+				if(runner->next != nullptr) runner->next->prev = runner;
+				tmp->next = list;
+				if(tmp->next != nullptr) tmp->next->prev = tmp;
+				tmp->prev = nullptr;
+				list = tmp;
+			} else {
+				runner = runner->next;
+			}
+		}
+		current = current->next;
+	}
 }
-
 
 int
 main() {
@@ -22,7 +39,7 @@ main() {
 
 	partition(list, 5);
 
-//	print_list(std::static_pointer_cast<slist_node<int>>(list));
+	print_list(list);
 
 	delete list;
 
